@@ -84,3 +84,14 @@
   opacity: 0.75;
   cursor: not-allowed;
 }
+
+.guestbook-form--login-required {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border-style: dashed;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

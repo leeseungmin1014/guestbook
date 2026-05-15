@@ -1,15 +1,22 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import type { GuestbookInsertPayload } from "../types/guestbook";
 import "./GuestbookForm.css";
 
 type GuestbookFormProps = {
   onSubmit: (payload: GuestbookInsertPayload) => Promise<void>;
+  user?: any;
 };
 
-export default function GuestbookForm({ onSubmit }: GuestbookFormProps) {
+export default function GuestbookForm({ onSubmit, user }: GuestbookFormProps) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (user?.user_metadata?.full_name) {
+      setName(user.user_metadata.full_name);
+    }
+  }, [user]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,11 +27,20 @@ export default function GuestbookForm({ onSubmit }: GuestbookFormProps) {
     setSubmitting(true);
     try {
       await onSubmit({ name: trimmedName, message: trimmedMessage });
-      setName("");
+      // 이름은 로그인 시 초기화하지 않음 (유지)
+      if (!user) setName("");
       setMessage("");
     } finally {
       setSubmitting(false);
     }
+  }
+
+  if (!user) {
+    return (
+      <div className="guestbook-form guestbook-form--login-required">
+        <p>글을 남기려면 구글로 로그인해 주세요.</p>
+      </div>
+    );
   }
 
   return (
@@ -44,7 +60,7 @@ export default function GuestbookForm({ onSubmit }: GuestbookFormProps) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          disabled={submitting}
+          disabled={submitting || !!user}
         />
       </div>
       <div className="guestbook-form__field">

@@ -7,6 +7,39 @@
 .app__header {
   margin-bottom: 2rem;
   text-align: center;
+  position: relative;
+}
+
+.app__auth {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.auth-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.auth-info__user {
+  color: var(--text-muted);
+}
+
+.auth-info__button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.auth-info__button:hover {
+  background-color: var(--border-color);
 }
 
 .app__title {
