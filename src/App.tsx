@@ -32,7 +32,9 @@ export default function App() {
   const handleAdd = useCallback(
     async (payload: GuestbookInsertPayload) => {
       const entry = await insertGuestbookEntry(payload);
-      setEntries((prev) => [entry, ...prev]);
+      if (entry) {
+        setEntries((prev) => [entry, ...prev]);
+      }
     },
     []
   );
